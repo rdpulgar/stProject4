@@ -90,7 +90,7 @@ def sentimiento(text):
             4: 'Bueno',
             5: 'Muy bueno'
         }
-        result = nlp.sentiment(text)
+        result = nlp(text)
         label = conditions[CheckForLess([0.1, 0.2, 0.5, 0.8, 1],result)]
         return label, round(result,4)
     #except:
