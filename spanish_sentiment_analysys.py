@@ -1,6 +1,6 @@
 # ! pip install spanish_sentiment_analysis
 from classifier import * 
-import streamlit
+import streamlit as st
 
 clf = SentimentClassifier()
 
