@@ -40,7 +40,7 @@ def main():
             data['text'] = data['text'].astype(str)
             total_reg = len(data)
             t0 = time.time()
-            msg = f"Espere por favor, esto puede tomar algun tiempo .. procesando {total_reg:.0f} elementos"  if total_reg>1000 else f"Espere .. procesando {total_reg:.0f} elementos"
+            msg = f"Espere por favor, esto puede tomar algun tiempo .. procesando {total_reg:.0f} elementos"  if total_reg>1000 else f"Espere .. procesando {total_reg:.0f} registros"
             with st.spinner(msg):
                 g = lambda x: pd.Series(sentimiento(x.text))
                 data[['label', 'score']] = data.apply(g, axis=1)    
@@ -50,9 +50,9 @@ def main():
                 st.success("Descargado con éxito ..")
                 st.stop()
         else:
-            st.error("Aun no se ha procesado el archivo")
+            st.error("Aun no se ha procesado el archivo..")
     else:
-        st.info("Cargando el archivo ..")
+        st.info("Aun no se ha procesado el archivo ..")
 
 @st.cache
 def sentimiento(text):
