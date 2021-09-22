@@ -60,7 +60,7 @@ def main():
             #data = data.drop(indexes)
             #data.to_csv("/Users/RDPulgar/Google Drive/AI/cv/P095_HT/_cokeai_results.csv")
             csv = convert_df(data)
-            st.success(f'Procesado con éxito en {time.time() - t0:.0f} seg')
+            st.success(f'{total_reg:.0f} registros procesados con éxito en {time.time() - t0:.0f} seg')
             if st.download_button(label="Presione para descargar archivo procesado", data=csv, file_name='_cokeai_results.csv', mime='text/csv'):
                 st.success("Descargado con éxito ..")
                 st.stop()
