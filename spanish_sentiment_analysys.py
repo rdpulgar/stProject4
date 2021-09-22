@@ -32,7 +32,7 @@ def main():
     uploaded_file = st.file_uploader("O bien puede seleccionar un archivo CSV para procesar múltiples párrafos (se procesará columna 'text')",type=['csv'])
     if uploaded_file is not None:
         if st.button("Procesar Archivo CSV"):
-            data = pd.read_csv(uploaded_file,usecols=["text"],nrows=3001)
+            data = pd.read_csv(uploaded_file,usecols=["text"],nrows=4001)
             #pd.read_parquet("penguin-dataset.parquet")
             #data.to_parquet("penguin-dataset.parquet")
             st.success("Procesando CSV ..")
@@ -71,7 +71,7 @@ def main():
     else:
         st.info("Cargando el archivo ..")
 
-
+@st.cache
 def sentimiento(text):
     #try:
         conditions = {
