@@ -29,7 +29,7 @@ def main():
             "Ingresa un texto y presiona el boton Analizar .."
         )
 
-    uploaded_file = st.file_uploader("O bien puede seleccionar un archivo CSV para procesar hasta 3000 párrafos (se procesará columna 'text')",type=['csv'])
+    uploaded_file = st.file_uploader("O bien puede seleccionar un archivo CSV para procesar hasta 3500 párrafos (se procesará columna 'text')",type=['csv'])
     if uploaded_file is not None:
         if st.button("Procesar Archivo CSV"):
             data = pd.read_csv(uploaded_file,usecols=["text"],nrows=3701)
