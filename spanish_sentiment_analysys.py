@@ -72,17 +72,6 @@ def main():
         st.info("Cargando el archivo ..")
 
 
-def CheckForLess(list1, val): 
-      
-    # traverse in the list
-    i=1
-    for x in list1: 
-          if val <= x: 
-            return i
-          else:
-            i=i+1
-    return False
-
 def sentimiento(text):
     #try:
         conditions = {
@@ -97,6 +86,18 @@ def sentimiento(text):
         return label, round(result,4)
     #except:
     #    return "_Error", -1
+
+@st.cache
+def CheckForLess(list1, val): 
+      
+    # traverse in the list
+    i=1
+    for x in list1: 
+          if val <= x: 
+            return i
+          else:
+            i=i+1
+    return False
 
 @st.cache
 def convert_df(df):
