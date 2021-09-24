@@ -3,8 +3,8 @@ import pandas as pd
 import streamlit as st
 import time
 
-classifier = pipeline('zero-shot-classification', # spanish 
-                      model='Recognai/bert-base-spanish-wwm-cased-xnli') 
+classifier = pipeline('zero-shot-classification', 
+                      model='Recognai/bert-base-spanish-wwm-cased-xnli') # spanish
                     
 def main():
 
