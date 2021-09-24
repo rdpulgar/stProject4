@@ -3,12 +3,9 @@ import pandas as pd
 import streamlit as st
 import time
 
-nlp = pipeline('zero-shot-classification', # spanish 
-                      model='joeddav/xlm-roberta-large-xnli') 
-
-candidate_labels = ["positivo","negativo"]
-hypothesis_template = "El sentimiento de este texto es {}."
-
+classifier = pipeline('zero-shot-classification', # spanish 
+                      model='Recognai/bert-base-spanish-wwm-cased-xnli') 
+                    
 def main():
 
     st.title('Coke.ai')
@@ -31,7 +28,7 @@ def main():
     uploaded_file = st.file_uploader("O bien puede seleccionar un archivo CSV para procesar hasta 3500 párrafos (se procesará columna 'text')",type=['csv'])
     if uploaded_file is not None:
         if st.button("Procesar Archivo CSV"):
-            data = pd.read_csv(uploaded_file,usecols=["text"],nrows=3701)
+            data = pd.read_csv(uploaded_file,usecols=["text"],nrows=2001)
             #pd.read_parquet("penguin-dataset.parquet")
             #data.to_parquet("penguin-dataset.parquet")
             st.success("Procesando CSV ..")
@@ -53,11 +50,15 @@ def main():
     else:
         st.info("Aun no se ha procesado el archivo ..")
 
-@st.cache
 def sentimiento(text):
     #try:
-        result = nlp(text, candidate_labels, template=hypothesis_template, multi_class=False)
-        return result[labels][0], result[scores][0]
+    candidate_labels = ["positivo", "neutro","negativo"]
+    hypothesis_template = "El sentimiento de este texto es {}."
+    result = classifier(
+        text,
+        candidate_labels=candidate_labels,
+        hypothesis_template=hypothesis_template, multi_label=True)
+    return result["labels"][0], result["scores"][0]
     #except:
     #    return "_Error", -1
 
