@@ -1,6 +1,8 @@
 from transformers import pipeline
 import pandas as pd
 import streamlit as st
+from streamlit import caching
+
 import time
 
 classifier = pipeline('zero-shot-classification', 
@@ -9,7 +11,7 @@ classifier = pipeline('zero-shot-classification',
 def main():
 
     st.title('Coke.ai')
-    st.title('Análisis de sentimiento ...')
+    st.title('Análisis de sentimiento ...usando Zero-Shot')
     write_here = "Texto aqui..."
     text = st.text_area("Incluya un texto ..", write_here)
     if st.button("Analizar"):
@@ -28,7 +30,7 @@ def main():
     uploaded_file = st.file_uploader("O bien puede seleccionar un archivo CSV para procesar hasta 3500 párrafos (se procesará columna 'text')",type=['csv'])
     if uploaded_file is not None:
         if st.button("Procesar Archivo CSV"):
-            data = pd.read_csv(uploaded_file,usecols=["text"],nrows=2000)
+            data = pd.read_csv(uploaded_file,usecols=["text"],nrows=3000)
             #pd.read_parquet("penguin-dataset.parquet")
             #data.to_parquet("penguin-dataset.parquet")
             st.success("Procesando CSV ..")
@@ -49,7 +51,9 @@ def main():
             st.error("Aun no se ha procesado el archivo..")
     else:
         st.info("Aun no se ha procesado el archivo ..")
+    caching.clear_cache()
 
+@st.cache
 def sentimiento(text):
     try:
         candidate_labels = ["positivo", "neutro","negativo"]
