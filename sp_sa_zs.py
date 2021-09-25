@@ -11,7 +11,7 @@ classifier = pipeline('zero-shot-classification',
 def main():
 
     st.title('Coke.ai')
-    st.title('Análisis de sentimiento ...usando Zero-Shot')
+    st.title('Análisis de sentimiento usando Zero-Shot')
     write_here = "Texto aqui..."
     text = st.text_area("Incluya un texto ..", write_here)
     if st.button("Analizar"):
@@ -30,7 +30,7 @@ def main():
     uploaded_file = st.file_uploader("O bien puede seleccionar un archivo CSV para procesar hasta 3500 párrafos (se procesará columna 'text')",type=['csv'])
     if uploaded_file is not None:
         if st.button("Procesar Archivo CSV"):
-            data = pd.read_csv(uploaded_file,usecols=["text"],nrows=2500)
+            data = pd.read_csv(uploaded_file,usecols=["text"])
             #pd.read_parquet("penguin-dataset.parquet")
             #data.to_parquet("penguin-dataset.parquet")
             st.success("Procesando CSV ..")
@@ -42,9 +42,9 @@ def main():
             with st.spinner(msg):
                 g = lambda x: pd.Series(sentimiento(x.text))
                 data[['label', 'score']] = data.apply(g, axis=1)    
-            csv = convert_df(data)
+            data = convert_df(data)
             st.success(f'{total_reg:.0f} registros procesados con éxito en {time.time() - t0:.0f} seg')
-            if st.download_button(label="Presione para descargar archivo procesado", data=csv, file_name='_cokeai_results.csv', mime='text/csv'):
+            if st.download_button(label="Presione para descargar archivo procesado", data=data, file_name='_cokeai_results.csv', mime='text/csv'):
                 st.success("Descargado con éxito ..")
                 st.stop()
         else:
@@ -53,10 +53,9 @@ def main():
         st.info("Aun no se ha procesado el archivo ..")
     caching.clear_cache()
 
-@st.cache
 def sentimiento(text):
     try:
-        candidate_labels = ["positivo", "neutro","negativo"]
+        candidate_labels = ["positivo", "negativo"]
         hypothesis_template = "El sentimiento de este texto es {}."
         result = classifier(
             text,
